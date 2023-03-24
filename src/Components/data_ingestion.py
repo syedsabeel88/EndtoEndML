@@ -7,7 +7,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
-from src.Components.data_transformation import DataTransformation
+from src.Components.data_transformation import DataTransformation, DataTransformationConfig
+from src.Components.model_trainer import ModelTrainer, ModelTrainerConfig
 
 # decorator dataclass is used to define the variables inside rather using init
 @dataclass
@@ -53,4 +54,7 @@ if __name__=="__main__":
     train_data, test_data =obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    data_transformation.initiate_data_transform(train_data,test_data)
+    train_arr, test_arr,_= data_transformation.initiate_data_transform(train_data,test_data)
+
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_train(train_arr=train_arr,test_arr=test_arr))
