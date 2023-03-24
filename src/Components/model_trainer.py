@@ -3,7 +3,6 @@ import sys
 
 from dataclasses import dataclass
 
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.neighbors import KNeighborsRegressor
@@ -27,7 +26,7 @@ class ModelTrainer:
     def initiate_model_train(self, train_arr, test_arr):
         try:
             logging.info("Train Test split for model training initiated")
-            X_train,y_train,X_test,y_test = train_test_split(
+            X_train,y_train,X_test,y_test = (
                 train_arr[:,:-1],
                 train_arr[:,-1],
                 test_arr[:,:-1],
