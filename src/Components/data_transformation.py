@@ -28,22 +28,21 @@ class DataTransformation:
         try:
             numerical_columns = ["reading_score","writing_score"]
             categorical_columns = ["gender","race_ethnicity","parental_level_of_education",
-                                   "lunch","test_preparation_course"]
+                                   "lunch","test_preparation_course",]
             
             num_pipeline = Pipeline(
                 steps=[("imputer", SimpleImputer(strategy="median")),
                        ("scaler", StandardScaler())])
             cat_pipeline = Pipeline(
                 steps=[("imputer", SimpleImputer(strategy="most_frequent")),
-                       ("encoding",OneHotEncoder()),
-                       ("scaler", StandardScaler(with_mean=False))])
-            logging.info("numerical imputation and standard scaling completed")
-            logging.info("categorical columns imputation, encoding and scaling completed")
+                       ("one_hot_encoder",OneHotEncoder(handle_unknown='ignore'))])
+            logging.info(f"numerical imputation and standard scaling completed:{numerical_columns}")
+            logging.info(f"categorical columns imputation, encoding and scaling completed:{categorical_columns}")
 
             preprocessor = ColumnTransformer(
                 [
-                ("num_pipeline", num_pipeline, numerical_columns),
-                ("cat_pipeline",cat_pipeline, categorical_columns)
+                ("num_pipelines", num_pipeline, numerical_columns),
+                ("cat_pipelines",cat_pipeline, categorical_columns)
                 ]
             )
             return preprocessor
@@ -86,7 +85,7 @@ class DataTransformation:
             return(
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path
+                self.data_transformation_config.preprocessor_obj_file_path,
             )         
         except Exception as e:
             raise CustomException(e,sys)
